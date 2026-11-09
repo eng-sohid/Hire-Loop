@@ -43,19 +43,25 @@ function ThemeHotkey() {
         return
       }
 
+      // Ignore events without a valid key
+      if (typeof event.key !== "string" || !event.key) {
+        return
+      }
+
+      // Ignore modifier keys
       if (event.metaKey || event.ctrlKey || event.altKey) {
         return
       }
 
-      if (event.key.toLowerCase() !== "d") {
-        return
-      }
-
+      // Ignore typing fields
       if (isTypingTarget(event.target)) {
         return
       }
 
-      setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      // Press D to toggle dark/light mode
+      if (event.key.toLowerCase() === "d") {
+        setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      }
     }
 
     window.addEventListener("keydown", onKeyDown)
