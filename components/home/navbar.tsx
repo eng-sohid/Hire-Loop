@@ -15,7 +15,9 @@ import {
 
 import { authClient } from "@/lib/auth-client"
 
-const navLinks = [
+type Role = "seeker" | "recruiter" | "admin"
+
+const publicNavLinks = [
   { href: "/jobs", label: "Browse Jobs" },
   { href: "/companies", label: "Company" },
   { href: "/pricing", label: "Pricing" },
@@ -25,6 +27,24 @@ export function Navbar() {
   const { data: session, isPending } = authClient.useSession()
 
   const user = session?.user
+
+  const userRole = user?.role?.toLowerCase() as Role
+
+  const role: Role = ["seeker", "recruiter", "admin"].includes(userRole)
+    ? userRole
+    : "seeker"
+
+  const navLinks = [
+    ...publicNavLinks,
+    ...(user
+      ? [
+          {
+            href: `/dashboard/${role}`,
+            label: "Dashboard",
+          },
+        ]
+      : []),
+  ]
 
   const handleSignOut = async () => {
     try {
@@ -86,6 +106,7 @@ export function Navbar() {
                     <span className="text-[11px] text-zinc-400">
                       Welcome back,
                     </span>
+
                     <span className="max-w-32 truncate text-sm font-semibold text-white">
                       {user.name || "User"}
                     </span>
@@ -111,7 +132,7 @@ export function Navbar() {
 
                 <Link
                   href="/sign-up"
-                  className="inline-flex h-9 items-center justify-center rounded-lg bg-[#6954f5] px-4 text-[14px] font-semibold text-white shadow-[0_2px_12px_rgba(105,84,245,0.2)] transition-all duration-200 hover:bg-[#7967ff] hover:shadow-[0_2px_18px_rgba(105,84,245,0.35)]"
+                  className="inline-flex h-9 items-center justify-center rounded-lg bg-[#6954f5] px-4 text-[14px] font-semibold text-white shadow-[0_2px_12px_rgba(105,84,245,0.2)] transition-all duration-200 hover:bg-[#7967ff]"
                 >
                   Get Started
                 </Link>
@@ -179,11 +200,17 @@ export function Navbar() {
 
                     <div className="min-w-0">
                       <p className="text-xs text-zinc-400">Welcome back,</p>
+
                       <p className="truncate text-sm font-semibold text-white">
                         {user.name || "User"}
                       </p>
+
                       <p className="truncate text-xs text-zinc-500">
                         {user.email}
+                      </p>
+
+                      <p className="mt-1 text-xs text-violet-300 capitalize">
+                        {role}
                       </p>
                     </div>
                   </div>

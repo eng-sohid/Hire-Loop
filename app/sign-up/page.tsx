@@ -18,7 +18,7 @@ import {
 
 import { authClient } from "@/lib/auth-client"
 
-type UserRole = "seeker" | "recruiter" | "Admin"
+type UserRole = "seeker" | "recruiter" | "admin"
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -127,6 +127,7 @@ export default function SignUpPage() {
                     className="h-8 w-8 object-contain"
                   />
                 </div>
+
                 <span className="text-2xl font-bold tracking-tight">
                   HireLoop
                 </span>
@@ -181,6 +182,7 @@ export default function SignUpPage() {
                   height={40}
                   className="h-10 w-10 object-contain"
                 />
+
                 <span className="text-2xl font-bold">HireLoop</span>
               </Link>
 
@@ -334,7 +336,7 @@ export default function SignUpPage() {
                     >
                       <option value="seeker">Job Seeker</option>
                       <option value="recruiter">Recruiter</option>
-                      <option value="recruiter">Admin</option>
+                      <option value="admin">Admin</option>
                     </select>
 
                     <span className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-400">

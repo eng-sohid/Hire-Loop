@@ -1,12 +1,27 @@
 "use client"
 
 import { useState } from "react"
-import { Search, MapPin, BriefcaseBusiness } from "lucide-react"
+import Image from "next/image"
+import {
+  BriefcaseBusiness,
+  Building2,
+  MapPin,
+  Search,
+  Smile,
+  Users,
+} from "lucide-react"
 
 const trendingPositions = [
   "Product Designer",
-  "AI Engineering",
-  "Dev-ops Engineer",
+  "AI/Programmer",
+  "Dev-Ops Engineer",
+]
+
+const heroStats = [
+  { value: "50K", label: "Active Jobs", icon: Search },
+  { value: "12K", label: "Companies", icon: Building2 },
+  { value: "2M", label: "Job Seekers", icon: Users },
+  { value: "97%", label: "Satisfaction Rate", icon: Smile },
 ]
 
 export function HeroSection() {
@@ -23,14 +38,12 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative isolate flex min-h-[480px] items-center justify-center overflow-hidden bg-[#050505] px-4 py-16 sm:min-h-[520px]">
+    <section className="relative isolate overflow-hidden bg-[#050505] px-4 pb-16 pt-16 sm:pt-20">
       {/* Background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/[0.035] to-transparent" />
 
         <div className="absolute bottom-[-100px] left-1/2 h-72 w-[500px] -translate-x-1/2 rounded-full bg-violet-700/15 blur-[130px]" />
-
-        <div className="absolute bottom-0 h-32 w-full bg-gradient-to-t from-violet-950/10 to-transparent" />
       </div>
 
       {/* Background Particles */}
@@ -76,8 +89,9 @@ export function HeroSection() {
 
         {/* Description */}
         <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400 sm:text-base">
-          HireLoop connects top talent with world-class companies. Browse
-          thousands of curated opportunities and land your next role — faster.
+          HireLoop connects top talent with visionary companies. Discover
+          thousands of job opportunities tailored to your skills and
+          aspirations.
         </p>
 
         {/* Search Bar */}
@@ -93,7 +107,7 @@ export function HeroSection() {
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleSearch()
               }}
-              placeholder="Job title, skill or company"
+              placeholder="Job Title, skill or company"
               className="h-9 w-full min-w-0 bg-transparent text-xs text-white outline-none placeholder:text-zinc-400"
             />
           </div>
@@ -131,7 +145,7 @@ export function HeroSection() {
         {/* Trending Positions */}
         <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
           <span className="mr-1 text-[11px] text-zinc-500">
-            Trending Position
+            Trending:
           </span>
 
           {trendingPositions.map((position) => (
@@ -145,6 +159,44 @@ export function HeroSection() {
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Globe */}
+      <div className="relative mx-auto mt-10 h-[380px] max-w-6xl sm:h-[500px]">
+        <Image
+          src="/globe.png"
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 1280px) 100vw, 1152px"
+          className="object-cover object-top"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+
+        <p className="absolute inset-x-0 top-[44%] mx-auto max-w-md px-4 text-lg font-medium text-white sm:text-2xl">
+          Assisting over 15,000 job seekers find their dream positions.
+        </p>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="relative z-10 mx-auto -mt-24 grid max-w-5xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        {heroStats.map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-white/[0.08] bg-[#101010]/90 p-4 backdrop-blur-sm sm:p-5"
+          >
+            <stat.icon className="size-4 text-violet-300" />
+
+            <p className="mt-3 text-xl font-semibold tracking-tight text-white sm:text-2xl">
+              {stat.value}
+            </p>
+
+            <p className="mt-0.5 text-[11px] text-zinc-500 sm:text-xs">
+              {stat.label}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   )
