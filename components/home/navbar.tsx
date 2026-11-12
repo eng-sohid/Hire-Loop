@@ -18,7 +18,7 @@ import { authClient } from "@/lib/auth-client"
 type Role = "seeker" | "recruiter" | "admin"
 
 const publicNavLinks = [
-  { href: "/jobs", label: "Browse Jobs" },
+  { href: "/browse-jobs", label: "Browse Jobs" },
   { href: "/companies", label: "Company" },
   { href: "/pricing", label: "Pricing" },
 ]

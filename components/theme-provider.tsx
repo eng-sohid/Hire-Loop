@@ -3,6 +3,46 @@
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 
+function ThemeHotkey() {
+  const { resolvedTheme, setTheme } = useTheme()
+
+  React.useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.repeat ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey
+      ) {
+        return
+      }
+
+      const target = event.target
+
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
+      ) {
+        return
+      }
+
+      if (event.key.toLowerCase() === "d") {
+        setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown)
+    }
+  }, [resolvedTheme, setTheme])
+
+  return null
+}
+
 function ThemeProvider({
   children,
   ...props
@@ -19,59 +59,6 @@ function ThemeProvider({
       {children}
     </NextThemesProvider>
   )
-}
-
-function isTypingTarget(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
-    return false
-  }
-
-  return (
-    target.isContentEditable ||
-    target.tagName === "INPUT" ||
-    target.tagName === "TEXTAREA" ||
-    target.tagName === "SELECT"
-  )
-}
-
-function ThemeHotkey() {
-  const { resolvedTheme, setTheme } = useTheme()
-
-  React.useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.defaultPrevented || event.repeat) {
-        return
-      }
-
-      // Ignore events without a valid key
-      if (typeof event.key !== "string" || !event.key) {
-        return
-      }
-
-      // Ignore modifier keys
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return
-      }
-
-      // Ignore typing fields
-      if (isTypingTarget(event.target)) {
-        return
-      }
-
-      // Press D to toggle dark/light mode
-      if (event.key.toLowerCase() === "d") {
-        setTheme(resolvedTheme === "dark" ? "light" : "dark")
-      }
-    }
-
-    window.addEventListener("keydown", onKeyDown)
-
-    return () => {
-      window.removeEventListener("keydown", onKeyDown)
-    }
-  }, [resolvedTheme, setTheme])
-
-  return null
 }
 
 export { ThemeProvider }
